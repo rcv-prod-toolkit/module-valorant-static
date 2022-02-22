@@ -1,5 +1,5 @@
 {
-  "name": "valorant-static",
+  "name": "module-valorant-static",
   "version": "1.0.0",
   "description": "Module that provides static data for VALORANT games",
   "author": "RCVolus",
@@ -14,10 +14,10 @@
     "needsBuild": true
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "league-prod-toolkit": "file:../.."
+    "axios": "^0.21.1"
   },
   "devDependencies": {
+    "rcv-prod-toolkit-types": "^1.0.1",
     "typescript": "^4.3.2"
   },
   "scripts": {
