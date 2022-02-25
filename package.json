@@ -1,26 +1,26 @@
 {
-  "name": "module-valorant-static",
-  "version": "1.0.2",
-  "description": "Module that provides static data for VALORANT games",
-  "author": "RCVolus",
-  "license": "MIT",
-  "toolkit": {
-    "modes": [
-      "PLUGIN"
-    ],
-    "plugin": {
-      "main": "dist/plugin.js"
+    "name": "module-valorant-static",
+    "version": "1.0.3",
+    "description": "Module that provides static data for VALORANT games",
+    "author": "RCVolus",
+    "license": "MIT",
+    "toolkit": {
+        "modes": [
+            "PLUGIN"
+        ],
+        "plugin": {
+            "main": "dist/plugin.js"
+        },
+        "needsBuild": true
     },
-    "needsBuild": true
-  },
-  "dependencies": {
-    "axios": "^0.21.1"
-  },
-  "devDependencies": {
-    "@rcv-prod-toolkit/types": "github:rcv-prod-toolkit/types",
-    "typescript": "^4.3.2"
-  },
-  "scripts": {
-    "build": "tsc"
-  }
+    "dependencies": {
+        "axios": "^0.21.1"
+    },
+    "devDependencies": {
+        "@rcv-prod-toolkit/types": "github:rcv-prod-toolkit/types",
+        "typescript": "^4.3.2"
+    },
+    "scripts": {
+        "build": "tsc"
+    }
 }
