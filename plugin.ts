@@ -3,8 +3,6 @@ import axios from 'axios'
 import fs from 'fs';
 import path from 'path';
 
-const namespace = 'valorant-static';
-
 interface StaticData {
   versionData: {
     manifestId: string
@@ -20,6 +18,8 @@ interface StaticData {
 }
 
 module.exports = async (ctx: PluginContext) => {
+  const namespace = ctx.plugin.module.getName();
+
   const staticData = {} as StaticData
 
   ctx.LPTE.emit({
@@ -30,7 +30,7 @@ module.exports = async (ctx: PluginContext) => {
     },
     serves: [{
       frontend: 'frontend',
-      id: 'valorant-static'
+      id: namespace
     }]
   });
 
