@@ -1,7 +1,7 @@
 import type { PluginContext } from '@rcv-prod-toolkit/types'
 import axios from 'axios'
-import fs from 'fs';
-import path from 'path';
+import fs from 'fs'
+import path from 'path'
 
 interface StaticData {
   versionData: {
@@ -10,15 +10,15 @@ interface StaticData {
     version: string
     buildVersion: number
     riotClientVersion: string
-    buildDate: Date,
+    buildDate: Date
     niceVersion: string
-  },
-  mapData: any[],
+  }
+  mapData: any[]
   agentData: any[]
 }
 
 module.exports = async (ctx: PluginContext) => {
-  const namespace = ctx.plugin.module.getName();
+  const namespace = ctx.plugin.module.getName()
 
   const staticData = {} as StaticData
 
@@ -28,37 +28,68 @@ module.exports = async (ctx: PluginContext) => {
       namespace: 'ui',
       version: 1
     },
-    serves: [{
-      frontend: 'frontend',
-      id: namespace
-    }]
-  });
+    serves: [
+      {
+        frontend: 'frontend',
+        id: namespace
+      }
+    ]
+  })
 
-  const versionResponse = await axios.get('https://valorant-api.com/v1/version');
-  staticData.versionData = versionResponse.data.data;
+  const versionResponse = await axios.get('https://valorant-api.com/v1/version')
+  staticData.versionData = versionResponse.data.data
 
-  const splitVersion = staticData.versionData.version.split('.');
-  const niceVersion = splitVersion.length >= 2 ? splitVersion[0] + "." + splitVersion[1] : ''
+  const splitVersion = staticData.versionData.version.split('.')
+  const niceVersion =
+    splitVersion.length >= 2 ? splitVersion[0] + '.' + splitVersion[1] : ''
 
   staticData.versionData.niceVersion = niceVersion
 
-  const mapData = await axios.get('https://valorant-api.com/v1/maps');
-  staticData.mapData = mapData.data.data;
+  const mapData = await axios.get('https://valorant-api.com/v1/maps')
+  staticData.mapData = mapData.data.data
 
-  const agentData = await axios.get('https://valorant-api.com/v1/agents');
-  staticData.agentData = agentData.data.data;
+  const agentData = await axios.get('https://valorant-api.com/v1/agents')
+  staticData.agentData = agentData.data.data
 
-  const mapDisplayIconFolder = path.join(__dirname, '../frontend/map-displayicon');
-  const mapSplashFolder = path.join(__dirname, '../frontend/map-splash');
-  staticData.mapData.forEach(async map => {
-    if (map.displayIcon) axios.get(map.displayIcon, { responseType: 'stream' }).then(response => response.data.pipe(fs.createWriteStream(path.join(mapDisplayIconFolder, `${map.uuid}.png`))))
-    if (map.splash) axios.get(map.splash, { responseType: 'stream' }).then(response => response.data.pipe(fs.createWriteStream(path.join(mapSplashFolder, `${map.uuid}.png`))))
-  });
+  const mapDisplayIconFolder = path.join(
+    __dirname,
+    '../frontend/map-displayicon'
+  )
+  const mapSplashFolder = path.join(__dirname, '../frontend/map-splash')
+  staticData.mapData.forEach(async (map) => {
+    if (map.displayIcon)
+      axios
+        .get(map.displayIcon, { responseType: 'stream' })
+        .then((response) =>
+          response.data.pipe(
+            fs.createWriteStream(
+              path.join(mapDisplayIconFolder, `${map.uuid}.png`)
+            )
+          )
+        )
+    if (map.splash)
+      axios
+        .get(map.splash, { responseType: 'stream' })
+        .then((response) =>
+          response.data.pipe(
+            fs.createWriteStream(path.join(mapSplashFolder, `${map.uuid}.png`))
+          )
+        )
+  })
 
-  const agentBustFolder = path.join(__dirname, '../frontend/agent-bust');
-  staticData.agentData.forEach(async agent => {
-    if (agent.bustPortrait) axios.get(agent.bustPortrait, { responseType: 'stream' }).then(response => response.data.pipe(fs.createWriteStream(path.join(agentBustFolder, `${agent.uuid}.png`))))
-  });
+  const agentBustFolder = path.join(__dirname, '../frontend/agent-bust')
+  staticData.agentData.forEach(async (agent) => {
+    if (agent.bustPortrait)
+      axios
+        .get(agent.bustPortrait, { responseType: 'stream' })
+        .then((response) =>
+          response.data.pipe(
+            fs.createWriteStream(
+              path.join(agentBustFolder, `${agent.uuid}.png`)
+            )
+          )
+        )
+  })
 
   ctx.LPTE.on(namespace, 'request-constants', (e: any) => {
     ctx.LPTE.emit({
@@ -69,8 +100,8 @@ module.exports = async (ctx: PluginContext) => {
         reply: e.meta.reply
       },
       constants: staticData
-    });
-  });
+    })
+  })
 
   ctx.LPTE.emit({
     meta: {
@@ -79,5 +110,5 @@ module.exports = async (ctx: PluginContext) => {
       version: 1
     },
     status: 'RUNNING'
-  });
-};
+  })
+}
