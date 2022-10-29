@@ -1,6 +1,6 @@
 {
     "name": "module-valorant-static",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Module that provides static data for VALORANT games",
     "author": "RCVolus",
     "license": "MIT",
